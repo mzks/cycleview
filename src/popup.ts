@@ -15,7 +15,7 @@ void refreshState();
 void renderShortcuts();
 
 toggleButton.addEventListener("click", () => {
-  void sendAction("toggleRun");
+  void sendActionAndClose("toggleRun");
 });
 previousButton.addEventListener("click", () => {
   void sendAction("previous");
@@ -24,7 +24,7 @@ nextButton.addEventListener("click", () => {
   void sendAction("next");
 });
 optionsButton.addEventListener("click", () => {
-  void chrome.runtime.openOptionsPage();
+  void openOptionsAndClose();
 });
 
 chrome.runtime.onMessage.addListener((message) => {
@@ -41,6 +41,16 @@ async function refreshState(): Promise<void> {
 async function sendAction(type: string): Promise<void> {
   const state = await chrome.runtime.sendMessage({ type }) as PublicState;
   renderState(state);
+}
+
+async function sendActionAndClose(type: string): Promise<void> {
+  await chrome.runtime.sendMessage({ type });
+  window.close();
+}
+
+async function openOptionsAndClose(): Promise<void> {
+  await chrome.runtime.openOptionsPage();
+  window.close();
 }
 
 function renderState(state: PublicState): void {
