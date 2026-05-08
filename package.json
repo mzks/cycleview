@@ -1,0 +1,16 @@
+{
+  "name": "cycleview",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension for rotating saved web pages across tabs without reloading on switch.",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "zip": "node scripts/release.mjs"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.291",
+    "esbuild": "^0.21.5",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>cycleview</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <h1>cycleview</h1>
+      <p id="run-state" class="status-line">Loading...</p>
+      <p id="current-page" class="current-page"></p>
+
+      <div class="controls">
+        <button id="toggle-button" type="button">Start</button>
+        <button id="options-button" type="button">Settings</button>
+        <button id="previous-button" type="button">Previous</button>
+        <button id="next-button" type="button">Next</button>
+      </div>
+
+      <section class="shortcuts">
+        <h2>Shortcuts</h2>
+        <div id="shortcut-list"></div>
+      </section>
+    </main>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

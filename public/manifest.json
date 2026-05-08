@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "cycleview",
+  "version": "0.1.0",
+  "description": "Rotate saved web pages across tabs without reloading on switch.",
+  "minimum_chrome_version": "120",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "cycleview",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "commands": {
+    "toggle-run": {
+      "description": "Pause or resume rotation",
+      "suggested_key": {
+        "default": "Alt+Shift+T",
+        "mac": "Command+Shift+T"
+      }
+    },
+    "start-run": {
+      "description": "Start rotation",
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "mac": "Command+Shift+S"
+      }
+    },
+    "pause-run": {
+      "description": "Pause rotation",
+      "suggested_key": {
+        "default": "Alt+Shift+P",
+        "mac": "Command+Shift+P"
+      }
+    },
+    "next-page": {
+      "description": "Move to next page",
+      "suggested_key": {
+        "default": "Alt+Shift+N",
+        "mac": "Command+Shift+N"
+      }
+    },
+    "previous-page": {
+      "description": "Move to previous page"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

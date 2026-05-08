@@ -1,0 +1,198 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #222;
+  background: #fff;
+}
+
+.page {
+  width: 100%;
+  margin: 0;
+}
+
+.header,
+.section-header,
+.global-grid,
+.actions,
+.editor-actions,
+.subactions {
+  display: flex;
+  gap: 12px;
+}
+
+.header,
+.section-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.global-grid {
+  flex-wrap: wrap;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  min-width: 260px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 12px;
+}
+
+.inline-checkbox {
+  margin-top: 0;
+}
+
+.checkbox input {
+  width: auto;
+  margin: 0;
+}
+
+input,
+button {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+button {
+  cursor: pointer;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  padding: 8px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+td input {
+  width: 100%;
+  min-width: 0;
+}
+
+td:nth-child(2) input {
+  min-width: 0;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 72px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 140px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 28%;
+}
+
+.actions {
+  flex-wrap: wrap;
+}
+
+.subactions {
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+details {
+  margin-top: 12px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.editor-actions {
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+textarea {
+  width: 100%;
+  min-height: 320px;
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.page-row.invalid {
+  background: #fff2f2;
+}
+
+.status {
+  min-height: 20px;
+  margin-top: 8px;
+  color: #b00020;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 16px;
+  }
+
+  .header,
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

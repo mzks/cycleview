@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>cycleview Settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <div>
+          <h1>cycleview Settings</h1>
+          <p>Configure page rotation, reload timing, and reopen timing.</p>
+        </div>
+        <button id="save-button" type="button">Save</button>
+      </header>
+
+      <section class="section">
+        <h2>Global</h2>
+        <div class="global-grid">
+          <label>
+            <span>Default duration (sec)</span>
+            <input id="global-duration-input" type="number" min="1" step="1" placeholder="20" />
+          </label>
+          <label>
+            <span>Reload interval (sec)</span>
+            <input id="global-reload-input" type="number" min="0" step="1" placeholder="blank = disabled" />
+          </label>
+          <label>
+            <span>Close &amp; open interval (sec)</span>
+            <input id="global-reopen-input" type="number" min="0" step="1" placeholder="blank = disabled" />
+          </label>
+        </div>
+        <label class="checkbox">
+          <input id="focus-window-checkbox" type="checkbox" />
+          <span>Activate window on page switch</span>
+        </label>
+        <label class="checkbox">
+          <input id="pause-on-page-click-checkbox" type="checkbox" />
+          <span>Pause rotation when a page is clicked</span>
+        </label>
+        <label class="checkbox">
+          <input id="auto-start-checkbox" type="checkbox" />
+          <span>Start automatically when Chrome launches</span>
+        </label>
+        <div class="subactions">
+          <button id="shortcut-settings-button" type="button">Open Shortcut Settings</button>
+        </div>
+        <p id="status-message" class="status" aria-live="polite"></p>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Pages</h2>
+          <button id="add-page-button" type="button">Add Page</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Enabled</th>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Duration</th>
+                <th>Zoom %</th>
+                <th>Reload</th>
+                <th>Hourly Reload</th>
+                <th>Daily Reload</th>
+                <th>Reopen</th>
+                <th>Hourly Reopen</th>
+                <th>Daily Reopen</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="page-list"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Config</h2>
+          <div class="actions">
+            <button id="export-button" type="button">Export JSON</button>
+            <button id="copy-json-button" type="button">Copy JSON</button>
+            <button id="import-button" type="button">Import JSON</button>
+            <input id="import-file-input" type="file" accept="application/json,.json" hidden />
+          </div>
+        </div>
+
+        <details>
+          <summary>Advanced JSON Editor</summary>
+          <div class="editor-actions">
+            <button id="load-json-button" type="button">Load from Form</button>
+            <button id="apply-json-button" type="button">Apply to Form</button>
+          </div>
+          <textarea
+            id="json-editor"
+            spellcheck="false"
+            placeholder='{
+  "pages": [
+    {
+      "enabled": true,
+      "name": "Status Page",
+      "url": "https://example.local/view",
+      "durationSec": null,
+      "zoomPercent": 100,
+      "reloadEverySec": null,
+      "reloadOnHour": false,
+      "reloadOnDay": false,
+      "reopenEverySec": null,
+      "reopenOnHour": false,
+      "reopenOnDay": false
+    }
+  ],
+  "globalDurationSec": 5,
+  "globalReloadEverySec": null,
+  "globalReopenEverySec": null,
+  "focusWindowOnSwitch": false,
+  "pauseOnPageClick": true,
+  "autoStartOnBrowserLaunch": false
+}'
+          ></textarea>
+          <p id="json-status-message" class="status" aria-live="polite"></p>
+        </details>
+      </section>
+    </main>
+
+    <template id="page-row-template">
+      <tr class="page-row">
+        <td><input data-field="enabled" type="checkbox" checked /></td>
+        <td><input data-field="name" type="text" maxlength="80" placeholder="Status Page" /></td>
+        <td><input data-field="url" type="url" placeholder="https://example.local/view" /></td>
+        <td><input data-field="durationSec" type="number" min="1" step="1" placeholder="global" /></td>
+        <td><input data-field="zoomPercent" type="number" min="25" max="500" step="1" placeholder="100" /></td>
+        <td><input data-field="reloadEverySec" type="number" min="0" step="1" placeholder="global" /></td>
+        <td><input data-field="reloadOnHour" type="checkbox" /></td>
+        <td><input data-field="reloadOnDay" type="checkbox" /></td>
+        <td><input data-field="reopenEverySec" type="number" min="0" step="1" placeholder="global" /></td>
+        <td><input data-field="reopenOnHour" type="checkbox" /></td>
+        <td><input data-field="reopenOnDay" type="checkbox" /></td>
+        <td>
+          <div class="actions">
+            <button data-action="move-up" type="button">Up</button>
+            <button data-action="move-down" type="button">Down</button>
+            <button data-action="remove" type="button">Remove</button>
+          </div>
+        </td>
+      </tr>
+    </template>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
