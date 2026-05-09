@@ -94,6 +94,22 @@ button {
   cursor: pointer;
 }
 
+.primary-button {
+  min-width: 120px;
+  border-color: #1f6feb;
+  background: #1f6feb;
+  color: #fff;
+  font-weight: 600;
+}
+
+.primary-button:hover {
+  background: #1a62d6;
+}
+
+.primary-button:active {
+  background: #1557be;
+}
+
 .table-wrap {
   overflow-x: auto;
 }

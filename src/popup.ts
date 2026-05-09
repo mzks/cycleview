@@ -2,6 +2,9 @@ import { PublicState } from "./types";
 
 const runStateElement = mustElement<HTMLHeadingElement>("run-state");
 const currentPageElement = mustElement<HTMLParagraphElement>("current-page");
+const pagePositionElement = mustElement<HTMLParagraphElement>("page-position");
+const nextPageElement = mustElement<HTMLParagraphElement>("next-page");
+const currentDurationElement = mustElement<HTMLParagraphElement>("current-duration");
 const toggleButton = mustElement<HTMLButtonElement>("toggle-button");
 const previousButton = mustElement<HTMLButtonElement>("previous-button");
 const nextButton = mustElement<HTMLButtonElement>("next-button");
@@ -56,11 +59,19 @@ async function openOptionsAndClose(): Promise<void> {
 function renderState(state: PublicState): void {
   const currentPage = state.currentPage;
   const isRunning = state.settings.isRunning;
+  const enabledPages = state.settings.pages.filter((page) => page.enabled);
+  const currentEnabledPosition = enabledPages.findIndex((page) => page.id === currentPage?.id);
+  const nextPage = currentEnabledPosition >= 0
+    ? enabledPages[(currentEnabledPosition + 1) % enabledPages.length] ?? null
+    : null;
   runStateElement.textContent = isRunning ? "Status: running" : "Status: paused";
   const durationSec = currentPage?.durationSec ?? state.settings.globalDurationSec ?? 20;
-  currentPageElement.textContent = currentPage
-    ? `${currentPage.name} (${durationSec}s)`
-    : "No page configured";
+  currentPageElement.textContent = currentPage ? `Current: ${currentPage.name}` : "No page configured";
+  pagePositionElement.textContent = currentEnabledPosition >= 0
+    ? `Page: ${currentEnabledPosition + 1} / ${enabledPages.length}`
+    : "";
+  nextPageElement.textContent = nextPage ? `Next: ${nextPage.name}` : "";
+  currentDurationElement.textContent = currentPage ? `Duration: ${durationSec}s` : "";
   toggleButton.textContent = isRunning ? "Pause" : "Start";
   toggleButton.classList.toggle("is-running", isRunning);
   toggleButton.classList.toggle("is-paused", !isRunning);
