@@ -40,6 +40,36 @@ If you install from source manually, then building is required. That is mainly f
 5. Choose `Load unpacked`
 6. Select the unzipped folder
 
+## CLI Install For Kiosk Setup
+
+This repository includes [install-cycleview.sh](./install-cycleview.sh).
+
+It can:
+
+- Download `cycleview.zip` from GitHub Releases
+- Unpack the extension
+- Create a kiosk launcher script
+- Optionally stage a settings JSON file for automatic first-launch import
+
+Example:
+
+```bash
+./install-cycleview.sh \
+  --repo <owner>/<repo> \
+  --settings ./cycleview-settings.json
+```
+
+One-liner:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/<owner>/<repo>/main/install-cycleview.sh | \
+  bash -s -- --repo <owner>/<repo> --settings ./cycleview-settings.json
+```
+
+If `--settings` is provided, the installer copies that file to `bootstrap-settings.json` inside the unpacked extension directory.
+
+On first launch, cycleview imports that JSON automatically only when its local settings are still empty. Existing local settings are not overwritten.
+
 ## Chrome Web Store
 
 Store submission notes are in [docs/chrome-web-store.md](./docs/chrome-web-store.md).

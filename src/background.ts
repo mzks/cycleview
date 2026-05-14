@@ -1,4 +1,4 @@
-import { ensureStorageDefaults, loadRuntime, loadSettings, saveRuntime, saveSettings } from "./storage";
+import { ensureStorageDefaults, loadRuntime, loadSettings, sanitizeSettings, saveRuntime, saveSettings } from "./storage";
 import { AppSettings, ExtensionMessage, ManagedPage, PublicState, RuntimeState } from "./types";
 
 let settings: AppSettings;
@@ -160,6 +160,7 @@ async function initialize(): Promise<void> {
   await ensureStorageDefaults();
   settings = await loadSettings();
   runtime = await loadRuntime();
+  const bootstrapped = await maybeBootstrapSettings();
 
   if (!settings.isRunning && !settings.autoStartOnBrowserLaunch) {
     runtime.pageTabIds = {};
@@ -180,6 +181,11 @@ async function initialize(): Promise<void> {
     clearRotationTimer();
   }
 
+  if (bootstrapped && settings.autoStartOnBrowserLaunch && getEnabledPages().length > 0) {
+    await startRotation();
+    return;
+  }
+
   scheduleMaintenanceTimer();
   await updateActionBadge();
   await broadcastState();
@@ -188,6 +194,34 @@ async function initialize(): Promise<void> {
 async function ensureInitialized(): Promise<void> {
   if (!initialized) {
     await initialize();
+  }
+}
+
+async function maybeBootstrapSettings(): Promise<boolean> {
+  if (settings.pages.length > 0) {
+    return false;
+  }
+
+  try {
+    const response = await fetch(chrome.runtime.getURL("bootstrap-settings.json"));
+    if (!response.ok) {
+      return false;
+    }
+
+    const parsed = await response.json();
+    const imported = sanitizeSettings(parsed);
+    if (imported.pages.length === 0) {
+      return false;
+    }
+
+    settings = {
+      ...imported,
+      isRunning: false
+    };
+    await saveSettings(settings);
+    return true;
+  } catch {
+    return false;
   }
 }
 
