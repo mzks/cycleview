@@ -941,6 +941,10 @@ function createActionIconImageData(size: number, state: "running" | "paused" | "
 
 async function applyTabZoom(tabId: number, page: ManagedPage): Promise<void> {
   try {
+    await chrome.tabs.setZoomSettings(tabId, {
+      mode: "automatic",
+      scope: "per-tab"
+    });
     await chrome.tabs.setZoom(tabId, page.zoomPercent / 100);
   } catch {
     // Some pages do not support zoom changes.
