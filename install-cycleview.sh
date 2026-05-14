@@ -18,7 +18,7 @@ Usage:
 
 Options:
   --repo <owner/repo>       GitHub repository, for example: example/cycleview
-  --version <tag|latest>    Release tag such as v0.1.1, or "latest" (default)
+  --version <tag|latest>    Release tag such as v0.1.2, or "latest" (default)
   --install-dir <path>      Destination directory for the unpacked extension
   --bin-dir <path>          Directory where the kiosk launcher script is created
   --browser <command>       Browser command to use in the launcher
@@ -34,7 +34,7 @@ What it does:
 
 Examples:
   ./install-cycleview.sh --repo your-org/cycleview
-  ./install-cycleview.sh --repo your-org/cycleview --version v0.1.1
+  ./install-cycleview.sh --repo your-org/cycleview --version v0.1.2
   ./install-cycleview.sh --repo your-org/cycleview --browser chromium
   ./install-cycleview.sh --repo your-org/cycleview --settings ./cycleview-settings.json
 EOF

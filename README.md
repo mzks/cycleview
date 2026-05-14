@@ -226,14 +226,14 @@ This writes `release/cycleview.zip`.
 This repository includes two GitHub Actions workflows:
 
 - `CI`: runs `npm ci`, `npm run typecheck`, and `npm run build` on pushes to `main` and on pull requests
-- `Release`: runs the same checks, builds `release/cycleview.zip`, uploads it as an artifact, and attaches it to a GitHub Release when a tag like `v0.1.1` is pushed
+- `Release`: runs the same checks, builds `release/cycleview.zip`, uploads it as an artifact, and attaches it to a GitHub Release when a tag like `v0.1.2` is pushed
 
 
 To publish a release:
 
 1. Update the version in [package.json](./package.json) and [public/manifest.json](./public/manifest.json)
 2. Commit the change
-3. Create and push a tag such as `v0.1.1`
+3. Create and push a tag such as `v0.1.2`
 4. Let the `Release` workflow publish `cycleview.zip`
 
 ## Public Repository Files
