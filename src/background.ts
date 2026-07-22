@@ -190,7 +190,9 @@ async function initialize(): Promise<void> {
     clearRotationTimer();
   }
 
-  if (bootstrapped && settings.autoStartOnBrowserLaunch && getEnabledPages().length > 0) {
+  // A settings file supplied by the installer represents a kiosk deployment,
+  // so start its first session regardless of the optional future auto-start setting.
+  if (bootstrapped && getEnabledPages().length > 0) {
     await startRotation();
     return;
   }
