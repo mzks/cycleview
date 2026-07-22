@@ -179,6 +179,14 @@ async function initialize(): Promise<void> {
   await saveRuntime(runtime);
   initialized = true;
 
+  // onStartup is not delivered when Chromium forwards a launch request to an
+  // existing process. Honor this setting during every worker initialization
+  // so kiosk launches reliably resume rotation in either case.
+  if ((bootstrapped || settings.autoStartOnBrowserLaunch) && getEnabledPages().length > 0) {
+    await startRotation();
+    return;
+  }
+
   if (getEnabledPages().length > 0 && (settings.isRunning || Object.keys(runtime.pageTabIds).length > 0)) {
     await ensureManagedTabs();
   }
@@ -188,13 +196,6 @@ async function initialize(): Promise<void> {
   } else {
     settings.isRunning = false;
     clearRotationTimer();
-  }
-
-  // A settings file supplied by the installer represents a kiosk deployment,
-  // so start its first session regardless of the optional future auto-start setting.
-  if (bootstrapped && getEnabledPages().length > 0) {
-    await startRotation();
-    return;
   }
 
   scheduleMaintenanceTimer();

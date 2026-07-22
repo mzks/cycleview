@@ -72,7 +72,13 @@ function scheduleReconnect(): void {
   }, 5000);
 }
 
-function handleClick(): void {
+function handleClick(event: MouseEvent): void {
+  // Dashboard pages can dispatch synthetic click events while initializing.
+  // Only a physical user interaction should pause rotation.
+  if (!event.isTrusted) {
+    return;
+  }
+
   if (!canUseRuntime()) {
     teardown();
     return;

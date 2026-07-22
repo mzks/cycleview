@@ -69,7 +69,7 @@ curl -fsSL https://raw.githubusercontent.com/mzks/cycleview/main/install-cyclevi
 
 The installer automatically detects Chromium, Google Chrome, Brave, and Microsoft Edge. To use another Chromium-based browser, pass `--browser <command>`.
 
-If `--settings` is provided, the installer copies that file to the unpacked extension, imports it automatically, and starts rotation. Running the installer again with `--settings` replaces the existing cycleview settings, so use the same command to correct or update kiosk settings. Re-importing settings also resets the extension's rotation runtime state. For subsequent browser launches, enable `autoStartOnBrowserLaunch` in the settings JSON if rotation should resume automatically.
+If `--settings` is provided, the installer copies that file to the unpacked extension, imports it automatically, and starts rotation. Running the installer again with `--settings` replaces the existing cycleview settings, so use the same command to correct or update kiosk settings. Re-importing settings also resets the extension's rotation runtime state. Set `autoStartOnBrowserLaunch` to `true` in the settings JSON to resume rotation automatically whenever the kiosk browser starts.
 
 The generated launcher supports:
 
