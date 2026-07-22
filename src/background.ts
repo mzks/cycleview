@@ -1,5 +1,14 @@
-import { ensureStorageDefaults, loadRuntime, loadSettings, sanitizeSettings, saveRuntime, saveSettings } from "./storage";
-import { AppSettings, ExtensionMessage, ManagedPage, PublicState, RuntimeState } from "./types";
+import {
+  ensureStorageDefaults,
+  loadBootstrapSettingsVersion,
+  loadRuntime,
+  loadSettings,
+  sanitizeSettings,
+  saveBootstrapSettingsVersion,
+  saveRuntime,
+  saveSettings
+} from "./storage";
+import { AppSettings, DEFAULT_RUNTIME, ExtensionMessage, ManagedPage, PublicState, RuntimeState } from "./types";
 
 let settings: AppSettings;
 let runtime: RuntimeState;
@@ -198,17 +207,21 @@ async function ensureInitialized(): Promise<void> {
 }
 
 async function maybeBootstrapSettings(): Promise<boolean> {
-  if (settings.pages.length > 0) {
-    return false;
-  }
-
   try {
-    const response = await fetch(chrome.runtime.getURL("bootstrap-settings.json"));
-    if (!response.ok) {
+    const [settingsResponse, versionResponse] = await Promise.all([
+      fetch(chrome.runtime.getURL("bootstrap-settings.json")),
+      fetch(chrome.runtime.getURL("bootstrap-settings-version.txt"))
+    ]);
+    if (!settingsResponse.ok || !versionResponse.ok) {
       return false;
     }
 
-    const parsed = await response.json();
+    const version = (await versionResponse.text()).trim();
+    if (!version || version === await loadBootstrapSettingsVersion()) {
+      return false;
+    }
+
+    const parsed = await settingsResponse.json();
     const imported = sanitizeSettings(parsed);
     if (imported.pages.length === 0) {
       return false;
@@ -218,7 +231,17 @@ async function maybeBootstrapSettings(): Promise<boolean> {
       ...imported,
       isRunning: false
     };
-    await saveSettings(settings);
+    runtime = {
+      ...DEFAULT_RUNTIME,
+      pageTabIds: {},
+      lastReloadAtByPageId: {},
+      lastHourlyReloadBucketByPageId: {},
+      lastDailyReloadBucketByPageId: {},
+      lastReopenAtByPageId: {},
+      lastHourlyReopenBucketByPageId: {},
+      lastDailyReopenBucketByPageId: {}
+    };
+    await Promise.all([saveSettings(settings), saveRuntime(runtime), saveBootstrapSettingsVersion(version)]);
     return true;
   } catch {
     return false;

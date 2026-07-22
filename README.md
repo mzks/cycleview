@@ -55,20 +55,26 @@ Example:
 
 ```bash
 ./install-cycleview.sh \
-  --repo <owner>/<repo> \
   --settings ./cycleview-settings.json
 ```
 
 One-liner:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<owner>/<repo>/main/install-cycleview.sh | \
-  bash -s -- --repo <owner>/<repo> --settings ./cycleview-settings.json
+curl -fsSL https://raw.githubusercontent.com/mzks/cycleview/main/install-cycleview.sh | \
+  bash -s -- --settings ./cycleview-settings.json
 ```
 
-If `--settings` is provided, the installer copies that file to `bootstrap-settings.json` inside the unpacked extension directory.
+`mzks/cycleview` is the default release source. Use `--repo <owner>/<repo>` only when using a fork or another repository.
 
-On first launch, cycleview imports that JSON automatically only when its local settings are still empty. Existing local settings are not overwritten.
+The installer automatically detects Chromium, Google Chrome, Brave, and Microsoft Edge. To use another Chromium-based browser, pass `--browser <command>`.
+
+If `--settings` is provided, the installer copies that file to the unpacked extension and imports it automatically. Running the installer again with `--settings` replaces the existing cycleview settings, so use the same command to correct or update kiosk settings. Re-importing settings also resets the extension's rotation runtime state.
+
+The generated launcher supports:
+
+- normal kiosk mode: `cycleview-kiosk`
+- maintenance mode without `--kiosk`: `cycleview-kiosk --maintenance`
 
 ## Chrome Web Store
 

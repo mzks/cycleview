@@ -2,6 +2,7 @@ import { AppSettings, DEFAULT_RUNTIME, DEFAULT_SETTINGS, ManagedPage, RuntimeSta
 
 const SETTINGS_KEY = "settings";
 const RUNTIME_KEY = "runtime";
+const BOOTSTRAP_VERSION_KEY = "bootstrapSettingsVersion";
 
 export async function loadSettings(): Promise<AppSettings> {
   const stored = await chrome.storage.local.get(SETTINGS_KEY);
@@ -19,6 +20,15 @@ export async function loadRuntime(): Promise<RuntimeState> {
 
 export async function saveRuntime(runtime: RuntimeState): Promise<void> {
   await chrome.storage.local.set({ [RUNTIME_KEY]: sanitizeRuntime(runtime) });
+}
+
+export async function loadBootstrapSettingsVersion(): Promise<string | null> {
+  const stored = await chrome.storage.local.get(BOOTSTRAP_VERSION_KEY);
+  return typeof stored[BOOTSTRAP_VERSION_KEY] === "string" ? stored[BOOTSTRAP_VERSION_KEY] : null;
+}
+
+export async function saveBootstrapSettingsVersion(version: string): Promise<void> {
+  await chrome.storage.local.set({ [BOOTSTRAP_VERSION_KEY]: version });
 }
 
 export function sanitizeSettings(input: unknown): AppSettings {
