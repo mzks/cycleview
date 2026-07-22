@@ -215,8 +215,14 @@ done
 CHROME_ARGS=(
   "--user-data-dir=${USER_DATA_DIR}"
   "--disable-session-crashed-bubble"
+  "--hide-crash-restore-bubble"
   "--no-first-run"
+  "--no-default-browser-check"
   "--disable-infobars"
+  "--disable-translate"
+  "--disable-translate-new-ux"
+  "--disable-prompt-on-repost"
+  "--noerrdialogs"
   "--load-extension=${TARGET_DIST_DIR}"
 )
 

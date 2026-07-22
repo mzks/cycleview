@@ -76,6 +76,8 @@ The generated launcher supports:
 - normal kiosk mode: `cycleview-kiosk`
 - maintenance mode without `--kiosk`: `cycleview-kiosk --maintenance`
 
+It also suppresses Chromium's session-restore, first-run, translation, and form-resubmission prompts for unattended kiosk use.
+
 ## Chrome Web Store
 
 Store submission notes are in [docs/chrome-web-store.md](./docs/chrome-web-store.md).
